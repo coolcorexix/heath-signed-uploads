@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Intaface</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Intaface</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
-</head>
+  <body>
+    <h2>Heath sent you a video!</h2>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
 
-<body>
-  <h2>Heath  sent you a video!</h2>
-  
-	<iframe style="border:none" src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0&autoplay=1">
-	</iframe>
+    <form method="post" enctype="multipart/form-data">
+      <input
+        type="submit"
+        value="Tap Here When Finished Watching"
+        name="submit"
+        class="submit"
+      />
+    </form>
 
-  <form method="post" enctype="multipart/form-data">
-    <input type="submit" value="Tap Here When Finished Watching" name="submit" class="submit">
-  </form>
+    <div id="description">
+      <p>
+        This video was created with <b>intaface</b>, a new app that puts human
+        emotion back into Instant Messaging. When you watch this video for the
+        first time, your front camera will record your face, which will be sent
+        back to Maksym, showing how it really made you feel.
+        <b
+          >Plesae allow Camera & Microphone permissions on the next page to
+          watch the video</b
+        >.
+      </p>
 
-	<div id="description">
-		<p>This video was created with <b>intaface</b>, a new app that puts human emotion back into Instant Messaging. When you watch this video for the first time, your front camera will record your face, which will be sent back to Maksym, showing how it really made you feel. <b>Plesae allow Camera & Microphone permissions on the next page to watch the video</b>.</p>
+      <p>
+        By continuing you agree to the intaface
+        <a href="#">Terms & Services</a>.
+      </p>
+    </div>
 
-		<p>By continuing you agree to the intaface <a href="#">Terms & Services</a>.</p>
-	</div>
+    <div id="tip-container">
+      <p>
+        Please tap "Allow" to watch the video while your face is recorded with
+        your front camera and sent back to Maksym.
+      </p>
+    </div>
 
-	<div id="tip-container">
-		<p>Please tap "Allow" to watch the video while your face is recorded with your front camera and sent back to Maksym.</p>
-	</div>
-
-	<script src="./js/uploadclientform.js" type="text/javascript"></script>
-</body>
-
+    <script src="./js/uploadclientform.js" type="text/javascript"></script>
+  </body>
 </html>

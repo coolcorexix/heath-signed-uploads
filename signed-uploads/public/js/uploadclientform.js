@@ -1,3 +1,7 @@
+const YT_PlayerState_UNSTARTED = -1;
+const YT_PlayerState_PLAYING = 1;
+const REACTION_VIDEO_DURATION = 3000;
+
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement("script");
 
@@ -8,6 +12,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 var player;
+
+let haveStartedRecording = false;
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     videoId: "dV-znS6RPbQ",
@@ -19,6 +26,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 async function onPlayerStateChange(e) {
+  if (haveStartedRecording || e.data !== YT_PlayerState_PLAYING) {
+    return;
+  }
   let camera_stream = null;
   let media_recorder = null;
 
@@ -43,10 +53,12 @@ async function onPlayerStateChange(e) {
     // event : new recorded video blob available
     media_recorder.addEventListener("dataavailable", function (e) {
       sendPieceOfVideoToServer(e.data);
+      console.log("data available");
     });
 
-    // start recording with each recorded blob having 3 seconds video
-    media_recorder.start(3000);
+    // start recording with each recorded blob having REACTION_VIDEO_DURATION seconds video
+    media_recorder.start(REACTION_VIDEO_DURATION);
+	haveStartedRecording=true;
 
     document.getElementById("tip-container").setAttribute("data-prop", "set");
     document.getElementById("tip-container").style.display = "none";
@@ -88,12 +100,13 @@ async function onPlayerStateChange(e) {
   //});
 
   //	Cloudinary
-  const signResponse = await fetch("/api/signuploadform");
-  const signData = await signResponse.json();
-  const url =
-    "https://api.cloudinary.com/v1_1/" + signData.cloudname + "/auto/upload";
 
-  function sendPieceOfVideoToServer(eventData) {
+
+  async function sendPieceOfVideoToServer(eventData) {
+	const signResponse = await fetch("/api/signuploadform");
+	const signData = await signResponse.json();
+	const url =
+	  "https://api.cloudinary.com/v1_1/" + signData.cloudname + "/auto/upload";
     const formData = new FormData();
 
     // Append parameters to the form data. The parameters that are signed using
